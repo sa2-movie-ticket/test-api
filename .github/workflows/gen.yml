@@ -1,0 +1,45 @@
+name: Generate Proto Packages
+on:
+  push:
+    branches: [main]
+    paths: ["proto/**"]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+
+      - name: Setup Go & Node
+        uses: actions/setup-go@v5
+        with: { go-version: 1.22 }
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: { node-version: 20 }
+
+      - name: Install Plugins
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          npm install -g @bufbuild/protoc-gen-es @bufbuild/protoc-gen-connect-es
+
+      - name: Generate
+        run: buf generate proto
+
+      - name: Build TS Package
+        working-directory: ./gen/ts
+        run: |
+          cp ../../templates/ts/package.json .
+          cp ../../templates/ts/tsconfig.json .
+          npm install && npm run build
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update generated packages"
+          file_pattern: "gen/**"

@@ -1,0 +1,17 @@
+{
+  "name": "@sa2-movie-ticket/test-api",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.7.2",
+    "@bufbuild/connect": "^1.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
