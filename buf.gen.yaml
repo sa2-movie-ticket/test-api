@@ -10,7 +10,10 @@ plugins:
   # TypeScript (Connect-ES is better for modern Node/TS)
   - plugin: es
     out: gen/ts
-    opt: target=ts
+    opt: 
+      - target=ts
+      # Removing any v2-specific options if they were added
   - plugin: connect-es
     out: gen/ts
-    opt: target=ts
+    opt: 
+      - target=ts
