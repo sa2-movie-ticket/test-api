@@ -2,7 +2,7 @@ name: Generate Proto Packages
 on:
   push:
     branches: [main]
-    paths: ['proto/**']
+    # paths: ['proto/**']
 
 jobs:
   generate:
