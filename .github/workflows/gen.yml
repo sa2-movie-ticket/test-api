@@ -2,7 +2,7 @@ name: Generate Proto Packages
 on:
   push:
     branches: [main]
-    paths: ["proto/**"]
+    paths: ['proto/**']
 
 jobs:
   generate:
@@ -11,35 +11,36 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Setup Buf
         uses: bufbuild/buf-setup-action@v1
 
       - name: Setup Go & Node
         uses: actions/setup-go@v5
-        with: { go-version: 1.22 }
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with: { go-version: '>=1.21' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
 
       - name: Install Plugins
         run: |
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-          npm install -g @bufbuild/protoc-gen-es @bufbuild/protoc-gen-connect-es
+          npm install -g @bufbuild/protoc-gen-es @bufbuild/protoc-gen-connect-es typescript
 
-      - name: Generate
-        run: buf generate proto
+      - name: Generate Code
+        # This fixes the "contained by module" error
+        run: buf generate --path proto
 
       - name: Build TS Package
         working-directory: ./gen/ts
         run: |
           cp ../../templates/ts/package.json .
           cp ../../templates/ts/tsconfig.json .
-          npm install && npm run build
+          npm install
+          npx tsc # Compiles TS to JS for the npm package
 
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: update generated packages"
-          file_pattern: "gen/**"
+          commit_message: "chore: update generated proto packages"
+          file_pattern: 'gen/**'

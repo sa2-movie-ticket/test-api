@@ -1,14 +1,13 @@
 version: v1
 plugins:
-  # GO Generation
+  # Go Plugins
   - plugin: go
     out: gen/go
     opt: paths=source_relative
   - plugin: go-grpc
     out: gen/go
     opt: paths=source_relative
-
-  # TypeScript/JavaScript Generation
+  # TypeScript (Connect-ES is better for modern Node/TS)
   - plugin: es
     out: gen/ts
     opt: target=ts
