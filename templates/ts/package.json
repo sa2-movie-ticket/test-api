@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-  "@bufbuild/protobuf": "^1.10.0",
-  "@connectrpc/connect": "^1.7.0",
-  "@connectrpc/connect-node": "^1.7.0"
-},
+    "@bufbuild/protobuf": "^1.10.0",
+    "@connectrpc/connect": "^1.7.0",
+    "@connectrpc/connect-node": "^1.7.0"
+  },
   "devDependencies": {
     "typescript": "^5.0.0"
   }
