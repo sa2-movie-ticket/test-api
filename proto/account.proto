@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package account.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
+service AccountService {
+    // Retrieves a specific account by ID
+    rpc GetAccount (GetAccountRequest) returns (Account);
+    
+    // Updates specific fields of an account using a FieldMask
+    rpc UpdateAccount (UpdateAccountRequest) returns (Account);
+    
+    // Deletes an account and returns an empty response on success
+    rpc DeleteAccount (DeleteAccountRequest) returns (google.protobuf.Empty);
+}
+
+enum Role {
+    ROLE_UNSPECIFIED = 0; // Best practice: always have an unspecified default
+    ROLE_USER = 1;
+    ROLE_MODERATOR = 2;
+    ROLE_MANAGER = 3;
+    ROLE_ADMIN = 4;
+    ROLE_SUPER_ADMIN = 5;
+}
+
+message Account {
+    string id = 1;
+    string email = 2;
+    string phone = 3;
+    Role role = 4;
+    bool is_phone_verified = 5;
+    bool is_email_verified = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+}
+
+message GetAccountRequest {
+    string id = 1;
+}
+
+message UpdateAccountRequest {
+    // The account object containing the new values
+    Account account = 1;
+
+    // Specifies which fields in 'account' should be updated.
+    // Example: paths: ["email", "phone"]
+    google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteAccountRequest {
+    string id = 1;
+}
