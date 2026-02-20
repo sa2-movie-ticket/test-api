@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package auth.v1;
 
-option go_package = "github.com/sa2-movie-ticket/contracts/gen/go/auth";
+// format: "github.com/your-username/repo-name/gen/go/auth/v1;authv1"
+option go_package = "github.com/sa2-movie-ticket/test-api/gen/go/auth/v1;authv1";
 
 service AuthService {
     rpc SendOtp (SendOtpRequest) returns (SendOtpResponse);

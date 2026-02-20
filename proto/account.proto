@@ -6,6 +6,9 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
 
+// format: "github.com/your-username/repo-name/gen/go/account/v1;accountv1"
+option go_package = "github.com/sa2-movie-ticket/test-api/gen/go/account/v1;accountv1";
+
 service AccountService {
     // Retrieves a specific account by ID
     rpc GetAccount (GetAccountRequest) returns (Account);
